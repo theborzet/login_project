@@ -1,0 +1,14 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block nav %}
+    <nav style="text-align: center;">
+        <a class="nav-button" href="{% url 'user' %}">Получить данные о пользователе</a>   
+        <a class="nav-button" href="{% url 'reg' %}">Зарегистрироваться</a>
+        <a class="nav-button" href="{% url 'login' %}">Войти</a>
+        <a class="nav-button" href="{% url 'logout' %}">Выйти</a>
+    </nav>
+{% endblock %}
+
+{% block content %}
+{% endblock %}

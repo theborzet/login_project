@@ -1,0 +1,85 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'vendor/css/auth.css' %}">
+{% block content %}
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                {% if form.errors %}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert" style="margin-top: 50px;">
+                    {{ form.errors }}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                {% endif %}
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h3 class="font-weight-light my-4">Создать аккаунт</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'reg' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.first_name.id_for_label }}">Имя</label>
+                                        {{ form.first_name }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.last_name.id_for_label }}">Фамилия</label>
+                                        {{ form.last_name }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.username.id_for_label }}">Имя пользователя</label>
+                                        {{ form.username }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.email.id_for_label }}">Адрес электронной почты</label>
+                                        {{ form.email }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.password1.id_for_label }}">Пароль</label>
+                                        {{ form.password1 }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="{{ form.password2.id_for_label }}">Подтверждение пароля</label>
+                                        {{ form.password2 }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mt-4 mb-0">
+                                <input class="btn btn-primary btn-block" type="submit" value="Создать аккаунт">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class="small">
+                            <a href="{% url 'login' %}">Уже есть аккаунт? Авторизоваться</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
