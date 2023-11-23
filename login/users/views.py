@@ -7,9 +7,7 @@ from django.contrib.auth.views import LogoutView, LoginView
 from django.contrib.auth.models import AbstractUser
 from django.views.generic.edit import CreateView
 from django.views import View
-from django.http import  JsonResponse
-
-
+from django.http import  JsonResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 
 
@@ -28,17 +26,13 @@ class UserLoginView(TitleMixin, LoginView):
     success_url = reverse_lazy('index')
 
     def form_valid(self, form):
-        # Получаем сессию пользователя
         session_key = self.request.session.session_key
         if not session_key:
-            # Если сессия пустая, создаем новую
             self.request.session.save()
             session_key = self.request.session.session_key
 
-        # Устанавливаем куки с уникальным значением сессии
         response = super().form_valid(form)
         response.set_cookie('session_token', session_key, secure=True)
-        print(session_key)
         return response
 
 
@@ -54,6 +48,16 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin,CreateView):
 class UserLogoutView(TitleMixin, LogoutView):
     title = 'Store - Выход'
     success_url = reverse_lazy('index')
+    def dispatch(self, request, *args, **kwargs):
+        super().dispatch(request, *args, **kwargs)
+
+        # Удалить куку 'session_token' из ответа
+        response = HttpResponseRedirect(reverse_lazy('index'))
+        response.delete_cookie('session_token')
+
+        return response
+
+
 
 
 class JsonUserView(TitleMixin, View):
